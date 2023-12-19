@@ -6,6 +6,7 @@
 /.idea
 /.mypy_cache
 /.tox
+/helpers
 /libsecp256k1_py_bindings.egg-info
 /build
 /dist
