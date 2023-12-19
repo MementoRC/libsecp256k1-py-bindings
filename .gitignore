@@ -1,0 +1,17 @@
+*.log
+*.pyc
+/.cache
+/.coverage
+/.eggs
+/.idea
+/.mypy_cache
+/.tox
+/libsecp256k1_py_bindings.egg-info
+/build
+/dist
+/site
+/wheelhouse
+/pip-wheel-metadata
+
+/libsecp256k1_py_bindings/_libsecp256k1.py
+/libsecp256k1_py_bindings/libsecp256k1.dll

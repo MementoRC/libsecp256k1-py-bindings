@@ -1,0 +1,67 @@
+name: build
+
+on:
+  push:
+    tags:
+    - v*
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+
+concurrency:
+  group: build-${{ github.head_ref }}
+  cancel-in-progress: true
+
+env:
+  CIBW_BEFORE_ALL_MACOS: ./.github/scripts/install-macos-build-deps.sh
+  CIBW_TEST_COMMAND: >
+    python -c
+    "from coincurve import PrivateKey;
+    a=PrivateKey();
+    b=PrivateKey();
+    assert a.ecdh(b.public_key.format())==b.ecdh(a.public_key.format())
+    "
+  CIBW_TEST_SKIP: "*-macosx_arm64"
+  CIBW_SKIP: >
+      pp*
+
+jobs:
+  test:
+    name: Test latest Python
+    runs-on: ubuntu-latest
+
+    env:
+      PYTHON_VERSION: '3.10'
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Upgrade Python packaging tools
+      run: pip install --upgrade pip setuptools wheel
+
+    - name: Show runner information
+      run: |
+        python --version
+        pip --version
+
+    - name: Install dependencies
+      run: ./.github/scripts/install-test-deps.sh
+
+    - name: Check style and typing
+      run: tox -e lint,typing
+
+    - name: Run tests
+      run: tox -e ${PYTHON_VERSION}
+
+    - name: Run benchmarks
+      run: tox -e bench
+
+    - name: Upload coverage
+      run: codecov -X gcov
