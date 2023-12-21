@@ -1,4 +1,4 @@
-# libsecp256k1 (coincurve)
+# libsecp256k1py-bindings (coincurve)
 
 | | |
 | --- | --- |

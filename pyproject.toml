@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "libsecp256k1_py_bindings"
-version = "0.4.0"
+version = "0.4.1"
 authors = [
   { name="Ofek Lev", email="oss@ofek.dev" },
   { name="Memento Mori", email="claude.rc@gmail.com" },
