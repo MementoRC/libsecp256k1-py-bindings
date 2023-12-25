@@ -33,7 +33,8 @@ secp256k1_package = 'libsecp256k1'
 extension = Extension(
     name=libname,
     sources=[os.path.join(package_name, '_libsecp256k1.c')],
-    py_limited_api=True,
+    # API mode is preferred to ABI: https://cffi.readthedocs.io/en/stable/overview.html#abi-versus-api
+    # py_limited_api=True,
 )
 
 pkgconfig.configure_extension(extension, secp256k1_package, static=False)
