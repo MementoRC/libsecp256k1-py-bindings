@@ -57,6 +57,7 @@ def mk_ffi(sources: List[Source],
     _ffi = FFI()
     code = [define_static_lib] if static_lib == '1' else [define_shared_lib]
 
+    logging.info(f'   Static {static_lib}...')
     for source in sources:
         with open(os.path.join(here, source.h)) as h:
             logging.info(f'   Including {source.h}...')
@@ -75,10 +76,10 @@ if __name__ == '__main__':
     logging.info('Starting CFFI build process...')
     parser = argparse.ArgumentParser(description='Generate C code using CFFI.')
     parser.add_argument('c_file', help='Generated C code filename.')
-    parser.add_argument('static_lib', help='Generate static lib in Windows.', default=False)
+    parser.add_argument('static_lib', help='Generate static lib in Windows.', default='0', type=str)
     args = parser.parse_args()
 
     modules = gather_sources_from_directory(here)
-    ffi = mk_ffi(modules, args.static_lib)
+    ffi = mk_ffi(modules, args.static_lib == '1')
     ffi.emit_c_code(args.c_file)
     logging.info(f'   Generated C code: {args.c_file}')
