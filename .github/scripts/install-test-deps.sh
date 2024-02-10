@@ -8,4 +8,4 @@ fi
 python -m pip install --upgrade cffi
 python -m pip install --upgrade tox codecov
 
-conda install -y -c conda-forge libsecp256k1
+conda install -y -c conda-forge python=3.12 libsecp256k1
