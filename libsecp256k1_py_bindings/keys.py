@@ -413,7 +413,7 @@ class PublicKey:
 
         return PublicKey(public_key, context)
 
-    def format(self, compressed: bool = True) -> bytes:  # noqa: A003
+    def format(self, compressed: bool = True) -> bytes:
         """
         Format the public key.
 
@@ -585,7 +585,7 @@ class PublicKeyXOnly:
 
         return cls(xonly_pubkey, parity=not not pk_parity[0], context=context)
 
-    def format(self) -> bytes:  # noqa: A003
+    def format(self) -> bytes:
         """Serialize the public key.
 
         :return: The public key serialized as 32 bytes.
