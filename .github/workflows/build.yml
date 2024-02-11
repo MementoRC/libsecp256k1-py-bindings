@@ -51,6 +51,9 @@ jobs:
         python --version
         pip --version
 
+    - name: Install Miniconda
+      uses: conda-incubator/setup-miniconda@v3
+
     - name: Install dependencies
       run: ./.github/scripts/install-test-deps.sh
 
