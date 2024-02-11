@@ -6,5 +6,4 @@ if [ "$RUNNER_OS" == "macOS" ]; then
 fi
 
 python -m pip install --upgrade cffi
-python -m pip install tox==3.*
-python -m pip install --upgrade codecov
+python -m pip install --upgrade tox codecov

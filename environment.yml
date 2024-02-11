@@ -7,3 +7,9 @@ dependencies:
   - codecov
   - pip
   - libsecp256k1
+  - pkgconfig
+  - setuptools >61
+  - pytest
+  - pytest-cov
+  - pytest-benchmark
+  - cffi>=1.3.0
