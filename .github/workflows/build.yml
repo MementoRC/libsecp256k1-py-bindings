@@ -57,6 +57,7 @@ jobs:
         auto-activate-base: true
         activate-environment: ""
         environment-file: environment.yml
+        python-version: ${{ env.PYTHON_VERSION }}
 
     - name: Install dependencies
       run: ./.github/scripts/install-test-deps.sh
