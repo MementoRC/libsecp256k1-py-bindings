@@ -6,4 +6,5 @@ if [ "$RUNNER_OS" == "macOS" ]; then
 fi
 
 python -m pip install --upgrade cffi
-python -m pip install --upgrade tox<4 codecov tox-conda
+python -m pip install tox<4
+python -m pip install --upgrade codecov tox-conda
