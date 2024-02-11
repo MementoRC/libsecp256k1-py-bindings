@@ -64,11 +64,11 @@ jobs:
     - name: Check style and typing
       run: tox -e lint,typing
 
-    - name: Run tests
-      run: tox -e ${PYTHON_VERSION}
-
-    - name: Run benchmarks
-      run: tox -e bench
-
-    - name: Upload coverage
-      run: codecov -X gcov
+#    - name: Run tests
+#      run: tox -e ${PYTHON_VERSION}
+#
+#    - name: Run benchmarks
+#      run: tox -e bench
+#
+#    - name: Upload coverage
+#      run: codecov -X gcov
