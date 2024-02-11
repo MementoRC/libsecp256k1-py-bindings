@@ -1,0 +1,9 @@
+name: test-conda
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - tox
+  - codecov
+  - pip
+  - libsecp256k1

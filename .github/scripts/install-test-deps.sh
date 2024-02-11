@@ -7,4 +7,4 @@ fi
 
 python -m pip install --upgrade cffi
 python -m pip install tox==3.*
-python -m pip install --upgrade codecov tox-conda
+python -m pip install --upgrade codecov
