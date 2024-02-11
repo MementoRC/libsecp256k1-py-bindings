@@ -64,9 +64,6 @@ jobs:
     - name: Check style and typing
       run: tox -e lint,typing
 
-    - name: build
-      run: python -m pip install . -vvv
-
   windows-wheels-standard:
     name: Build Windows wheels
     needs:
