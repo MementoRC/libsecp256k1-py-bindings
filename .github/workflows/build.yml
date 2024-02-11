@@ -54,8 +54,7 @@ jobs:
     - name: Install Miniconda
       uses: conda-incubator/setup-miniconda@v3
       with:
-        auto-activate-base: true
-        activate-environment: ""
+        activate-environment: true
         environment-file: environment.yml
         python-version: ${{ env.PYTHON_VERSION }}
 
