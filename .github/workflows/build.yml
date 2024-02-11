@@ -65,7 +65,33 @@ jobs:
       run: tox -e lint,typing
 
     - name: build
-      run: python -m build .
+      run: python -m pip install . -vvv
+
+  windows-wheels-standard:
+    name: Build Windows wheels
+    needs:
+    - test
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-python@v5
+
+    - name: Build wheels
+      uses: pypa/cibuildwheel@v2.16.5
+      env:
+        CIBW_BEFORE_ALL: choco install -y --no-progress --no-color pkgconfiglite
+        # CIBW_BEFORE_TEST_WINDOWS: bash {project}/.github/scripts/build-minimal-windows-image.sh 312
+        CIBW_TEST_REQUIRES: pytest pytest-benchmark cmake>=3.26
+        CIBW_TEST_COMMAND: python -m pytest {project}/tests
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: artifacts
+        path: wheelhouse/*.whl
+        if-no-files-found: error
+
 
 #    - name: Run tests
 #      run: tox -e ${PYTHON_VERSION}
