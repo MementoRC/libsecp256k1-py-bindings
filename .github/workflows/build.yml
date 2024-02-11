@@ -64,6 +64,9 @@ jobs:
     - name: Check style and typing
       run: tox -e lint,typing
 
+    - name: build
+      run: python -m build .
+
 #    - name: Run tests
 #      run: tox -e ${PYTHON_VERSION}
 #
