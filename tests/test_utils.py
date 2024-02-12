@@ -1,6 +1,7 @@
 from os import urandom
 
 import pytest
+from samples import MESSAGE, PRIVATE_KEY_DER, PUBLIC_KEY_COMPRESSED, PUBLIC_KEY_UNCOMPRESSED, SIGNATURE
 
 from libsecp256k1_py_bindings.utils import (
     GROUP_ORDER,
@@ -16,8 +17,6 @@ from libsecp256k1_py_bindings.utils import (
     validate_secret,
     verify_signature,
 )
-
-from samples import MESSAGE, PRIVATE_KEY_DER, PUBLIC_KEY_COMPRESSED, PUBLIC_KEY_UNCOMPRESSED, SIGNATURE
 
 
 class TestPadScalar:
