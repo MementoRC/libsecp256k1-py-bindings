@@ -2,7 +2,7 @@ from hashlib import sha512
 from os import urandom
 
 import pytest
-from samples import (
+from tests.samples import (
     MESSAGE,
     PRIVATE_KEY_BYTES,
     PRIVATE_KEY_DER,

@@ -1,4 +1,4 @@
-from samples import SIGNATURE
+from tests.samples import SIGNATURE
 
 from libsecp256k1_py_bindings.ecdsa import cdata_to_der, der_to_cdata
 
