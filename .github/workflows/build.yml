@@ -81,8 +81,8 @@ jobs:
         CIBW_ARCHS_WINDOWS: "AMD64"
         CIBW_BEFORE_ALL: choco install -y --no-progress --no-color pkgconfiglite
         # CIBW_BEFORE_TEST_WINDOWS: bash {project}/.github/scripts/build-minimal-windows-image.sh 312
-        CIBW_TEST_REQUIRES: pytest pytest-benchmark cmake>=3.26
-        CIBW_TEST_COMMAND: python -m pytest {project}/tests
+        CIBW_TEST_REQUIRES: pytest pytest-benchmark
+        CIBW_TEST_COMMAND: python -m pytest -v {project}/tests
 
     - uses: actions/upload-artifact@v3
       with:
