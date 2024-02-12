@@ -39,6 +39,7 @@ extension = Extension(
 
 pkgconfig.configure_extension(extension, secp256k1_package, static=False)
 logging.info(f'Extension: {extension.__dict__}')
+logging.info(f'environ: {os.environ}')
 package_info = pkgconfig.parse(secp256k1_package, static=False)
 
 if os.name == 'nt' or sys.platform == 'win32':
