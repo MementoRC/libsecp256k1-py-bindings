@@ -3,17 +3,21 @@ from typing import Optional, Tuple
 
 from asn1crypto.keys import ECDomainParameters, ECPointBitString, ECPrivateKey, PrivateKeyAlgorithm, PrivateKeyInfo
 
-from libsecp256k1_py_bindings.context import GLOBAL_CONTEXT, Context
-from libsecp256k1_py_bindings.ecdsa import (
+from ._libsecp256k1 import ffi, lib
+from .context import GLOBAL_CONTEXT, Context
+from .ecdsa import (
     cdata_to_der,
     der_to_cdata,
     deserialize_recoverable,
     recover,
     serialize_recoverable,
 )
-from libsecp256k1_py_bindings.flags import EC_COMPRESSED, EC_UNCOMPRESSED
-from libsecp256k1_py_bindings.types import Hasher, Nonce
-from libsecp256k1_py_bindings.utils import (
+from .flags import (
+    EC_COMPRESSED,
+    EC_UNCOMPRESSED,
+)
+from .types import Hasher, Nonce
+from .utils import (
     DEFAULT_NONCE,
     bytes_to_int,
     der_to_pem,
@@ -25,8 +29,6 @@ from libsecp256k1_py_bindings.utils import (
     sha256,
     validate_secret,
 )
-
-from ._libsecp256k1 import ffi, lib
 
 
 class PrivateKey:

@@ -2,7 +2,11 @@ from hashlib import sha512
 from os import urandom
 
 import pytest
-from samples import (
+from libsecp256k1_py_bindings.ecdsa import deserialize_recoverable, recover
+from libsecp256k1_py_bindings.keys import PrivateKey, PublicKey, PublicKeyXOnly
+from libsecp256k1_py_bindings.utils import bytes_to_int, int_to_bytes_padded, verify_signature
+
+from .samples import (
     MESSAGE,
     PRIVATE_KEY_BYTES,
     PRIVATE_KEY_DER,
@@ -18,10 +22,6 @@ from samples import (
     X_ONLY_PUBKEY,
     X_ONLY_PUBKEY_INVALID,
 )
-
-from libsecp256k1_py_bindings.ecdsa import deserialize_recoverable, recover
-from libsecp256k1_py_bindings.keys import PrivateKey, PublicKey, PublicKeyXOnly
-from libsecp256k1_py_bindings.utils import bytes_to_int, int_to_bytes_padded, verify_signature
 
 G = PublicKey(
     b'\x04y\xbef~\xf9\xdc\xbb\xacU\xa0b\x95\xce\x87\x0b\x07\x02\x9b'

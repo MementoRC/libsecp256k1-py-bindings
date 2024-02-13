@@ -32,7 +32,7 @@ secp256k1_package = 'libsecp256k1'
 
 extension = Extension(
     name=libname,
-    sources=[os.path.join(package_name, '_libsecp256k1.c')],
+    sources=[os.path.join('src', package_name, '_libsecp256k1.c')],
     # API mode is preferred to ABI: https://cffi.readthedocs.io/en/stable/overview.html#abi-versus-api
     # py_limited_api=True,
 )
@@ -52,4 +52,5 @@ setup(
     ext_modules=[extension],
     cmdclass={'build_ext': BuildCFFI},
     package_data=package_data,
+    package_dir={'libsecp256k1_py_bindings': 'src/libsecp256k1_py_bindings'},
 )
