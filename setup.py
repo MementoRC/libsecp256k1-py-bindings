@@ -33,6 +33,7 @@ secp256k1_package = 'libsecp256k1'
 extension = Extension(
     name=libname,
     sources=[os.path.join('src', package_name, '_libsecp256k1.c')],
+    extra_compile_args=['/d2FH4-'] if sys.platform == 'win32' else []
     # API mode is preferred to ABI: https://cffi.readthedocs.io/en/stable/overview.html#abi-versus-api
     # py_limited_api=True,
 )
