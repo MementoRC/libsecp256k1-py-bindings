@@ -6,8 +6,8 @@ import shutil
 import sys
 import textwrap
 
-TARGET_FOLDER = op.join('sklearn', '.libs')
-DISTRIBUTOR_INIT = op.join('sklearn', '_distributor_init.py')
+TARGET_FOLDER = op.join('libsecp256k1_py_bindings', '.libs')
+DISTRIBUTOR_INIT = op.join('libsecp256k1_py_bindings', '_distributor_init.py')
 VCOMP140_SRC_PATH = 'C:\\Windows\\System32\\vcomp140.dll'
 MSVCP140_SRC_PATH = 'C:\\Windows\\System32\\msvcp140.dll'
 
