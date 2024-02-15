@@ -78,7 +78,8 @@ jobs:
       uses: pypa/cibuildwheel@v2.16.5
       env:
         CIBW_ARCHS_WINDOWS: "AMD64"
-        CIBW_BEFORE_TEST_WINDOWS: conda remove libsecp256k1; conda install -c conda-forge libsecp256k1
+        CIBW_BUILD: "cp38-win_amd64"
+        CIBW_BEFORE_TEST_WINDOWS:  conda install -c conda-forge libsecp256k1
         # CIBW_TEST_REQUIRES: pytest pytest-benchmark
         # CIBW_TEST_COMMAND: python -m pytest -v {project}
 
