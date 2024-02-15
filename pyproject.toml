@@ -98,7 +98,8 @@ lint.unfixable = [
   "F401",
 ]
 extend-exclude = [
-  "_cffi_build/compose_cffi_files.py",
+    "_cffi_build/compose_cffi_files.py",
+    ".github/data/vendor.py"
 ]
 
 [tool.ruff.lint.isort]
