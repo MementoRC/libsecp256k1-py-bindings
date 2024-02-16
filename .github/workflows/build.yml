@@ -80,7 +80,7 @@ jobs:
         CIBW_ARCHS_WINDOWS: "AMD64"
         CIBW_BUILD: "cp310-win_amd64"
         CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: bash .github/scripts/repair_windows_wheels.sh {wheel} {dest_dir}
-        # CIBW_TEST_REQUIRES: pytest pytest-benchmark
+        CIBW_TEST_REQUIRES: pytest pytest-benchmark numpy=1.22
         # CIBW_TEST_COMMAND: python -m pytest -v {project}
 
     - uses: actions/upload-artifact@v3
