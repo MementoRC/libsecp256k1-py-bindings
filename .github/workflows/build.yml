@@ -81,10 +81,8 @@ jobs:
         CIBW_BUILD: "cp312-win_amd64"
         CIBW_BEFORE_ALL_WINDOWS: conda install -c conda-forge pkgconfig libsecp256k1
         CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: bash .github/scripts/repair_windows_wheels.sh {wheel} {dest_dir}
-        CIBW_TEST_REQUIRES: pytest pytest-benchmark
-        CIBW_TEST_COMMAND: >
-          conda install -c conda-forge libsecp256k1 &&
-          python -m pytest -v {project}
+        CIBW_BEFORE_TEST_WINDOWS: conda install -c conda-forge pytest pytest-benchmark libsecp256k1
+        CIBW_TEST_COMMAND: python -m pytest -v {project}
 
     - uses: actions/upload-artifact@v3
       with:
