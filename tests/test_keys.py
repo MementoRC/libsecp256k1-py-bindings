@@ -5,6 +5,7 @@ import pytest
 from libsecp256k1_py_bindings.ecdsa import deserialize_recoverable, recover
 from libsecp256k1_py_bindings.keys import PrivateKey, PublicKey, PublicKeyXOnly
 from libsecp256k1_py_bindings.utils import bytes_to_int, int_to_bytes_padded, verify_signature
+
 from tests.samples import (
     MESSAGE,
     PRIVATE_KEY_BYTES,
