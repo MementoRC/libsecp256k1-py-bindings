@@ -1,5 +1,11 @@
 import sys
 
+if sys.version_info >= (3, 8) and sys.platform == 'win32':
+    import os
+
+    if conda := os.getenv('CONDA_PREFIX'):
+        os.add_dll_directory(os.path.join(conda, 'Library', 'bin'))
+
 from .context import GLOBAL_CONTEXT, Context
 from .ecdsa import (
     cdata_to_der,
@@ -74,9 +80,3 @@ __all__ = [
     'Hasher',
     'Nonce',
 ]
-
-if sys.version_info >= (3, 8) and sys.platform == 'win32':
-    import os
-
-    if conda := os.getenv('CONDA_PREFIX'):
-        os.add_dll_directory(os.path.join(conda, 'Library', 'bin'))
