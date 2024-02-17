@@ -2,8 +2,10 @@ import sys
 
 if sys.version_info >= (3, 8) and sys.platform == 'win32':
     import os
+    import logging
 
     if conda := os.getenv('CONDA_PREFIX'):
+        logging.info(f'Adding {conda} to os.add_dll_directory')
         os.add_dll_directory(os.path.join(conda, 'Library', 'bin'))
 
 from .context import GLOBAL_CONTEXT, Context
