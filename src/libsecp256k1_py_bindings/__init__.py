@@ -75,7 +75,7 @@ __all__ = [
     'Nonce',
 ]
 
-if sys.version_info >= (3, 8):
+if sys.version_info >= (3, 8) and sys.platform == 'win32':
     import os
 
     if conda := os.getenv('CONDA_PREFIX'):
