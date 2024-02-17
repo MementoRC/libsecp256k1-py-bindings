@@ -75,7 +75,8 @@ __all__ = [
     'Nonce',
 ]
 
-if sys.version_info.major == 3 and sys.version_info.minor >= 8:
+if sys.version_info >= (3, 8):
     import os
+
     if conda := os.getenv('CONDA_PREFIX'):
         os.add_dll_directory(os.path.join(conda, 'Library', 'bin'))
