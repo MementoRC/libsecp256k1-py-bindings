@@ -57,7 +57,7 @@ jobs:
       run: tox -e lint,typing
 
   test-with-libsecp256k1:
-    name: Test latest Python
+    name: Test Conda libsecp256k1
     runs-on: ubuntu-latest
 
     env:
@@ -74,8 +74,8 @@ jobs:
     - name: Install Miniconda
       uses: conda-incubator/setup-miniconda@v3
       with:
-        activate-environment: 'test-with-libsecp256k1'
         environment-file: ./environment.yml
+        activate-environment: true
 
     - name: Run tests
       run: tox -e ${PYTHON_VERSION}
