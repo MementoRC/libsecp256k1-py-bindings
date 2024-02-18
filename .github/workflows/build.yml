@@ -73,9 +73,14 @@ jobs:
 
     - name: Install Miniconda
       uses: conda-incubator/setup-miniconda@v3
+      with:
+        activate-environment: test-conda
+        environment-file: etc/example-environment.yml
+        python-version: ${{ env.PYTHON_VERSION }}
+        auto-activate-base: false
 
-    - run: |
-        conda install -c conda-forge tox libsecp256k1 codecov
+    # - run: |
+    #     conda install -c conda-forge tox libsecp256k1 codecov
 
     - name: Run tests
       run: |
