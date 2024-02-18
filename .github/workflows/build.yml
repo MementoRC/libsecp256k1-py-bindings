@@ -75,7 +75,7 @@ jobs:
       uses: conda-incubator/setup-miniconda@v3
       with:
         environment-file: ./environment.yml
-        activate-environment: true
+        activate-environment: 'test-conda'
 
     - name: Run tests
       run: tox -e ${PYTHON_VERSION}
