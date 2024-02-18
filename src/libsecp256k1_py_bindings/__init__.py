@@ -4,7 +4,8 @@ if sys.version_info >= (3, 8) and sys.platform == 'win32':
     import logging
     import os
 
-    if (conda := os.getenv('CONDA_PREFIX')) is not None:
+    conda = os.getenv('CONDA_PREFIX')
+    if conda is not None:
         logging.info(f'Adding {conda} to os.add_dll_directory')
         os.add_dll_directory(os.path.join(conda, 'Library', 'bin'))
 
