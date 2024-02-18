@@ -83,13 +83,15 @@ jobs:
     #     conda install -c conda-forge tox libsecp256k1 codecov
 
     - name: Run tests
-      run: |
-        tox -e ${PYTHON_VERSION}
+      shell: pwsh
+      run: tox -e ${PYTHON_VERSION}
 
     - name: Run benchmarks
+      shell: pwsh
       run: tox -e bench
 
     - name: Upload coverage
+      shell: pwsh
       run: codecov -X gcov
 
   windows-wheels-standard:
