@@ -35,7 +35,7 @@ jobs:
       PYTHON_VERSION: '3.12'
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Set up Python ${{ env.PYTHON_VERSION }}
       uses: actions/setup-python@v5
@@ -55,6 +55,27 @@ jobs:
 
     - name: Check style and typing
       run: tox -e lint,typing
+
+  test-with-libsecp256k1:
+    name: Test latest Python
+    runs-on: ubuntu-latest
+
+    env:
+      PYTHON_VERSION: '3.12'
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Install Miniconda
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        activate-environment: 'test-with-libsecp256k1'
+        environment-file: ./environment.yml
 
     - name: Run tests
       run: tox -e ${PYTHON_VERSION}
