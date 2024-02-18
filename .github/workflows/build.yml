@@ -32,13 +32,13 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      PYTHON_VERSION: '3.10'
+      PYTHON_VERSION: '3.12'
 
     steps:
     - uses: actions/checkout@v3
 
     - name: Set up Python ${{ env.PYTHON_VERSION }}
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ env.PYTHON_VERSION }}
 
@@ -56,6 +56,15 @@ jobs:
     - name: Check style and typing
       run: tox -e lint,typing
 
+    - name: Run tests
+      run: tox -e ${PYTHON_VERSION}
+
+    - name: Run benchmarks
+      run: tox -e bench
+
+    - name: Upload coverage
+      run: codecov -X gcov
+
   windows-wheels-standard:
     name: Build Windows wheels
     needs:
@@ -69,18 +78,13 @@ jobs:
 
     - name: Install Miniconda
       uses: conda-incubator/setup-miniconda@v3
-      # with:
-      #   activate-environment: true
-      #   environment-file: environment.yml
-      #   python-version: ${{ env.PYTHON_VERSION }}
 
     - name: Build wheels
       uses: pypa/cibuildwheel@v2.16.5
       env:
         CIBW_ARCHS_WINDOWS: "AMD64"
-        CIBW_BUILD: "cp312-win_amd64"
         CIBW_BEFORE_ALL_WINDOWS: conda install -c conda-forge pkgconfig libsecp256k1
-        CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: bash .github/scripts/repair_windows_wheels.sh {wheel} {dest_dir}
+        # CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: bash .github/scripts/repair_windows_wheels.sh {wheel} {dest_dir}
         CIBW_TEST_REQUIRES: pytest pytest-benchmark
         CIBW_TEST_COMMAND: >
           conda install -c conda-forge libsecp256k1 &&
@@ -90,18 +94,8 @@ jobs:
           b=PrivateKey();
           "
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
-        name: artifacts
+        name: artifacts-windows-amd64
         path: wheelhouse/*.whl
         if-no-files-found: error
-
-
-#    - name: Run tests
-#      run: tox -e ${PYTHON_VERSION}
-#
-#    - name: Run benchmarks
-#      run: tox -e bench
-#
-#    - name: Upload coverage
-#      run: codecov -X gcov
