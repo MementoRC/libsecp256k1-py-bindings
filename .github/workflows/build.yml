@@ -81,13 +81,13 @@ jobs:
       run: |
         conda install tox
         pip install tox
-        python -m tox -e ${PYTHON_VERSION}
+        tox -e ${PYTHON_VERSION}
 
     - name: Run benchmarks
-      run: python -m tox -e bench
+      run: tox -e bench
 
     - name: Upload coverage
-      run: python -m codecov -X gcov
+      run: codecov -X gcov
 
   windows-wheels-standard:
     name: Build Windows wheels
