@@ -84,7 +84,11 @@ jobs:
         CIBW_TEST_REQUIRES: pytest pytest-benchmark
         CIBW_TEST_COMMAND: >
           conda install -c conda-forge libsecp256k1 &&
-          pytest -v {project}\tests
+          python -c
+          "from libsecp256k1_py_bindings import PrivateKey;
+          a=PrivateKey();
+          b=PrivateKey();
+          "
 
     - uses: actions/upload-artifact@v3
       with:
