@@ -78,7 +78,10 @@ jobs:
         activate-environment: 'test-conda'
 
     - name: Run tests
-      run: python -m tox -e ${PYTHON_VERSION}
+      run: |
+        conda install tox
+        pip install tox
+        python -m tox -e ${PYTHON_VERSION}
 
     - name: Run benchmarks
       run: python -m tox -e bench
