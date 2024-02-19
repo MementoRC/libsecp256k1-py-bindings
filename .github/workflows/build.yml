@@ -79,9 +79,6 @@ jobs:
         python-version: ${{ env.PYTHON_VERSION }}
         auto-activate-base: false
 
-    # - run: |
-    #     conda install -c conda-forge tox libsecp256k1 codecov
-
     - name: Run tests
       shell: pwsh
       run: tox -e ${{ env.PYTHON_VERSION }}
@@ -90,14 +87,11 @@ jobs:
       shell: pwsh
       run: tox -e bench
 
-    - name: Upload coverage
-      shell: pwsh
-      run: codecov -X gcov
-
   windows-wheels-standard:
     name: Build Windows wheels
     needs:
     - test
+    - test-with-libsecp256k1
     runs-on: windows-latest
 
     steps:
@@ -107,6 +101,9 @@ jobs:
 
     - name: Install Miniconda
       uses: conda-incubator/setup-miniconda@v3
+      with:
+        activate-environment: test-conda
+        environment-file: environment.yml
 
     - name: Build wheels
       uses: pypa/cibuildwheel@v2.16.5
