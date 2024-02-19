@@ -96,7 +96,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
     - uses: actions/setup-python@v5
 
     - name: Install Miniconda
@@ -105,6 +104,8 @@ jobs:
     - name: Build wheels
       uses: pypa/cibuildwheel@v2.16.5
       env:
+        # conda-forge does not support win32
+        CIBW_ARCHS_WINDOWS: "AMD64" "ARM64"
         CIBW_BEFORE_ALL_WINDOWS: conda install -c conda-forge pkgconfig libsecp256k1
         CIBW_TEST_REQUIRES: pytest pytest-benchmark
         CIBW_TEST_COMMAND: >
@@ -113,7 +114,8 @@ jobs:
           "from libsecp256k1_py_bindings import PrivateKey;
           a=PrivateKey();
           b=PrivateKey();
-          "
+          " &&
+          python -m pytest {project}/tests
 
     - uses: actions/upload-artifact@v4
       with:
