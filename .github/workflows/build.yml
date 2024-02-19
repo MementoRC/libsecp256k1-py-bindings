@@ -101,16 +101,11 @@ jobs:
 
     - name: Install Miniconda
       uses: conda-incubator/setup-miniconda@v3
-      with:
-        activate-environment: test-conda
-        environment-file: environment.yml
 
     - name: Build wheels
       uses: pypa/cibuildwheel@v2.16.5
       env:
-        CIBW_ARCHS_WINDOWS: "AMD64"
         CIBW_BEFORE_ALL_WINDOWS: conda install -c conda-forge pkgconfig libsecp256k1
-        # CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: bash .github/scripts/repair_windows_wheels.sh {wheel} {dest_dir}
         CIBW_TEST_REQUIRES: pytest pytest-benchmark
         CIBW_TEST_COMMAND: >
           conda install -c conda-forge libsecp256k1 &&
@@ -122,6 +117,6 @@ jobs:
 
     - uses: actions/upload-artifact@v4
       with:
-        name: artifacts-windows-amd64
+        name: artifacts-windows
         path: wheelhouse/*.whl
         if-no-files-found: error
