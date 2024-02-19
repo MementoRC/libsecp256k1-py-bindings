@@ -11,5 +11,5 @@ dependencies:
   - pytest-cov
   - pytest-benchmark
   - setuptools >61
-  - tox
+  - tox <4
   - tox-conda
