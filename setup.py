@@ -38,18 +38,18 @@ extension = Extension(
     # py_limited_api=True,
 )
 
-pkgconfig.configure_extension(extension, secp256k1_package, static=False)
+# pkgconfig.configure_extension(extension, secp256k1_package, static=False)
 logging.info(f'Extension: {extension.__dict__}')
 logging.info(f'environ: {os.environ}')
-package_info = pkgconfig.parse(secp256k1_package, static=False)
+# package_info = pkgconfig.parse(secp256k1_package, static=False)
 
-logging.info(f'DBG: Package info: {package_info}')
+# logging.info(f'DBG: Package info: {package_info}')
 
-if os.name == 'nt' or sys.platform == 'win32':
-    # Apparently, the linker on Windows interprets -lxxx as xxx.lib, not libxxx.lib
-    for i, v in enumerate(extension.__dict__.get('extra_link_args')):
-        if v.endswith('.lib'):
-            extension.__dict__['extra_link_args'][i] = f'lib{v}'
+# if os.name == 'nt' or sys.platform == 'win32':
+#     # Apparently, the linker on Windows interprets -lxxx as xxx.lib, not libxxx.lib
+#     for i, v in enumerate(extension.__dict__.get('extra_link_args')):
+#         if v.endswith('.lib'):
+#             extension.__dict__['extra_link_args'][i] = f'lib{v}'
 
 setup(
     ext_modules=[extension],
