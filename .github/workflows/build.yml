@@ -84,7 +84,7 @@ jobs:
 
     - name: Run tests
       shell: pwsh
-      run: tox -e ${PYTHON_VERSION}
+      run: tox -e ${{ env.PYTHON_VERSION }}
 
     - name: Run benchmarks
       shell: pwsh
