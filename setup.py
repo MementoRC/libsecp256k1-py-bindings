@@ -32,7 +32,7 @@ secp256k1_package = 'libsecp256k1'
 
 extension = Extension(
     name=libname,
-    sources=[os.path.join('src', package_name, '_libsecp256k1.c')],
+    sources=[os.path.join('src', package_name, f'_{secp256k1_package}.c')],
     extra_compile_args=['/d2FH4-'] if sys.platform == 'win32' else []
     # API mode is preferred to ABI: https://cffi.readthedocs.io/en/stable/overview.html#abi-versus-api
     # py_limited_api=True,
@@ -42,6 +42,8 @@ pkgconfig.configure_extension(extension, secp256k1_package, static=False)
 logging.info(f'Extension: {extension.__dict__}')
 logging.info(f'environ: {os.environ}')
 package_info = pkgconfig.parse(secp256k1_package, static=False)
+
+logging.info(f'DBG: Package info: {package_info}')
 
 if os.name == 'nt' or sys.platform == 'win32':
     # Apparently, the linker on Windows interprets -lxxx as xxx.lib, not libxxx.lib
@@ -53,5 +55,5 @@ setup(
     ext_modules=[extension],
     cmdclass={'build_ext': BuildCFFI},
     package_data=package_data,
-    package_dir={'libsecp256k1_py_bindings': 'src/libsecp256k1_py_bindings'},
+    package_dir={f'{package_name}': 'src/libsecp256k1_py_bindings'},
 )
