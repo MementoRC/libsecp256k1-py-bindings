@@ -1,5 +1,6 @@
 import logging
 import os
+import platform
 import shutil
 
 import pkgconfig
@@ -14,21 +15,22 @@ logging.basicConfig(level=logging.INFO)
 
 
 class BuildCFFI(build_ext):
-    def build_extensions(self):
+    def build_extension(self, ext):
         build_script = os.path.join('_cffi_build', 'build.py')
-        c_file = self.extensions[0].sources[0]
-        python_exe = shutil.which('python', path=os.environ['PATH'])
-        subprocess.run([python_exe, build_script, c_file, '0'], shell=False, check=True)  # noqa S603
-        super().build_extensions()
+        for c_file in ext.sources:
+            cmd = [sys.executable, build_script, c_file, '0']
+            subprocess.run([cmd], shell=False, check=True)  # noqa S603
+
+        super().build_extension(ext)
+
 
 # --- Coincurve package definitions ---
 package_name = 'libsecp256k1_py_bindings'
-libname = f'{package_name}._libsecp256k1'
-
-package_data = {package_name: ['py.typed']}
 
 # --- SECP256K1 package definitions ---
 secp256k1_package = 'libsecp256k1'
+
+libname = f'{package_name}._{secp256k1_package}'
 
 extension = Extension(
     name=libname,
@@ -45,15 +47,15 @@ logging.info(f'environ: {os.environ}')
 
 # logging.info(f'DBG: Package info: {package_info}')
 
-# if os.name == 'nt' or sys.platform == 'win32':
-#     # Apparently, the linker on Windows interprets -lxxx as xxx.lib, not libxxx.lib
-#     for i, v in enumerate(extension.__dict__.get('extra_link_args')):
-#         if v.endswith('.lib'):
-#             extension.__dict__['extra_link_args'][i] = f'lib{v}'
+if platform.system() == 'Windows':
+    # Apparently, the linker on Windows interprets -lxxx as xxx.lib, not libxxx.lib
+    for i, v in enumerate(extension.__dict__.get('extra_link_args')):
+        if v.endswith('.lib'):
+            extension.__dict__['extra_link_args'][i] = f'lib{v}'
 
 setup(
     ext_modules=[extension],
     cmdclass={'build_ext': BuildCFFI},
-    package_data=package_data,
-    package_dir={f'{package_name}': 'src/libsecp256k1_py_bindings'},
+    package_data={package_name: ['py.typed']},
+    package_dir={f'{package_name}': f'src/{package_name}'},
 )
