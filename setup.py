@@ -17,7 +17,7 @@ class BuildCFFI(build_ext):
         build_script = os.path.join('_cffi_build', 'build.py')
         for c_file in ext.sources:
             cmd = [sys.executable, build_script, c_file, '0']
-            subprocess.run([cmd], shell=False, check=True)  # noqa S603
+            subprocess.run(cmd, shell=False, check=True)  # noqa S603
 
         super().build_extension(ext)
 
