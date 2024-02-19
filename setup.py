@@ -38,7 +38,7 @@ extension = Extension(
     # py_limited_api=True,
 )
 
-# pkgconfig.configure_extension(extension, secp256k1_package, static=False)
+pkgconfig.configure_extension(extension, secp256k1_package, static=False)
 logging.info(f'Extension: {extension.__dict__}')
 logging.info(f'environ: {os.environ}')
 # package_info = pkgconfig.parse(secp256k1_package, static=False)
