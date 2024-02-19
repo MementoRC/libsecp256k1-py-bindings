@@ -41,11 +41,6 @@ extension = Extension(
 )
 
 pkgconfig.configure_extension(extension, secp256k1_package, static=False)
-logging.info(f'Extension: {extension.__dict__}')
-logging.info(f'environ: {os.environ}')
-# package_info = pkgconfig.parse(secp256k1_package, static=False)
-
-# logging.info(f'DBG: Package info: {package_info}')
 
 if platform.system() == 'Windows':
     # Apparently, the linker on Windows interprets -lxxx as xxx.lib, not libxxx.lib
