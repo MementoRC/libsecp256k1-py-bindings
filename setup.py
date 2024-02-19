@@ -1,12 +1,10 @@
 import logging
 import os
 import platform
-import shutil
-
-import pkgconfig
 import subprocess
 import sys
 
+import pkgconfig
 from setuptools import setup
 from setuptools.command.build_ext import build_ext
 from setuptools.extension import Extension
