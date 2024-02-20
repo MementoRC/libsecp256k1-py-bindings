@@ -104,7 +104,6 @@ jobs:
     - name: Build wheels
       uses: pypa/cibuildwheel@v2.16.5
       env:
-        # conda-forge does not support win32
         CIBW_ARCHS_WINDOWS: "AMD64" "ARM64"
         CIBW_BEFORE_ALL_WINDOWS: conda install -c conda-forge pkgconfig libsecp256k1
         CIBW_TEST_REQUIRES: pytest pytest-benchmark
