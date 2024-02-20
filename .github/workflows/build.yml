@@ -106,7 +106,7 @@ jobs:
         # conda-forge does not support win32
         CIBW_ARCHS_WINDOWS: "AMD64 ARM64"
         CIBW_BEFORE_ALL_WINDOWS: conda install -c conda-forge pkgconfig libsecp256k1
-        CIBW_TEST_REQUIRES: pytest pytest-benchmark tox
+        CIBW_TEST_REQUIRES: pytest pytest-benchmark
         CIBW_TEST_COMMAND: >
           conda install -c conda-forge libsecp256k1 &&
           python -c
@@ -114,7 +114,8 @@ jobs:
           a=PrivateKey();
           b=PrivateKey();
           " &&
-          python -m tox -e ${{ env.PYTHON_VERSION }}
+          python -m pytest -v {project}
+        PYTHONPATH: tests
 
     - uses: actions/upload-artifact@v4
       with:
@@ -123,7 +124,7 @@ jobs:
         if-no-files-found: error
 
   macos-wheels-arm:
-    name: Build macOS wheels for ARM
+    name: Build macOS wheels for x86-64
     needs:
     - test
     runs-on: macos-latest
@@ -139,7 +140,7 @@ jobs:
       env:
         CIBW_ARCHS_MACOS: x86_64
         CIBW_BEFORE_ALL_MACOS: conda install -c conda-forge pkgconfig libsecp256k1
-        CIBW_TEST_REQUIRES: pytest pytest-benchmark tox
+        CIBW_TEST_REQUIRES: pytest pytest-benchmark
         CIBW_TEST_COMMAND: >
           conda install -c conda-forge libsecp256k1 &&
           python -c
@@ -147,7 +148,8 @@ jobs:
           a=PrivateKey();
           b=PrivateKey();
           " &&
-          python -m tox -e ${{ env.PYTHON_VERSION }}
+          python -m pytest -v {project}
+        PYTHONPATH: tests
 
     - uses: actions/upload-artifact@v4
       with:
