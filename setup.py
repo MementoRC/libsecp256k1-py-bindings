@@ -33,11 +33,13 @@ def main():
 
     extension = Extension(
         name=libname,
-        sources=[os.path.join('src', package_name, f'_{secp256k1_package}.c')],
+        sources=[f'_{secp256k1_package}.c'],
         extra_compile_args=['/d2FH4-'] if sys.platform == 'win32' else [],
         # API mode is preferred to ABI: https://cffi.readthedocs.io/en/stable/overview.html#abi-versus-api
         py_limited_api=False,
     )
+
+    logging.info(f'Extension build: {extension.__dict__}')
 
     pkgconfig.configure_extension(extension, secp256k1_package, static=False)
 
@@ -50,7 +52,13 @@ def main():
     setup(
         ext_modules=[extension],
         cmdclass={'build_ext': BuildCFFI},
-        package_data={package_name: ['py.typed']},
+        package_data={
+            package_name: [
+                'py.typed',
+                # f'_{secp256k1_package}*.so',
+                # f'_{secp256k1_package}*.pyd',
+            ]},
+
         package_dir={f'{package_name}': f'src/{package_name}'},
     )
 
