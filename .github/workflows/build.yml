@@ -114,8 +114,7 @@ jobs:
           a=PrivateKey();
           b=PrivateKey();
           " &&
-          python -m pytest -v {project}
-        PYTHONPATH: {project}/tests
+          PYTHONPATH={project} python -m pytest -v {project}/tests
 
     - uses: actions/upload-artifact@v4
       with:
