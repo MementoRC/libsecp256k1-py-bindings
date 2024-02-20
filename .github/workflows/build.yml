@@ -115,7 +115,7 @@ jobs:
           b=PrivateKey();
           " &&
           python -m pytest -v {project}
-        PYTHONPATH: tests
+        PYTHONPATH: {project}/tests
 
     - uses: actions/upload-artifact@v4
       with:
@@ -123,39 +123,39 @@ jobs:
         path: wheelhouse/*.whl
         if-no-files-found: error
 
-  macos-wheels-arm:
-    name: Build macOS wheels for x86-64
-    needs:
-    - test
-    runs-on: macos-latest
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Install Miniconda
-      uses: conda-incubator/setup-miniconda@v3
-
-    - name: Build wheels
-      uses: pypa/cibuildwheel@v2.16.5
-      env:
-        CIBW_ARCHS_MACOS: x86_64
-        CIBW_BEFORE_ALL_MACOS: conda install -c conda-forge pkgconfig libsecp256k1
-        CIBW_TEST_REQUIRES: pytest pytest-benchmark
-        CIBW_TEST_COMMAND: >
-          conda install -c conda-forge libsecp256k1 &&
-          python -c
-          "from libsecp256k1_py_bindings import PrivateKey;
-          a=PrivateKey();
-          b=PrivateKey();
-          " &&
-          python -m pytest -v {project}
-        PYTHONPATH: tests
-
-    - uses: actions/upload-artifact@v4
-      with:
-        name: artifacts-macos-x86_64
-        path: wheelhouse/*.whl
-        if-no-files-found: error
+#  macos-wheels-arm:
+#    name: Build macOS wheels for x86-64
+#    needs:
+#    - test
+#    runs-on: macos-latest
+#
+#    steps:
+#    - uses: actions/checkout@v4
+#
+#    - name: Install Miniconda
+#      uses: conda-incubator/setup-miniconda@v3
+#
+#    - name: Build wheels
+#      uses: pypa/cibuildwheel@v2.16.5
+#      env:
+#        CIBW_ARCHS_MACOS: x86_64
+#        CIBW_BEFORE_ALL_MACOS: conda install -c conda-forge pkgconfig libsecp256k1
+#        CIBW_TEST_REQUIRES: pytest pytest-benchmark
+#        CIBW_TEST_COMMAND: >
+#          conda install -c conda-forge libsecp256k1 &&
+#          python -c
+#          "from libsecp256k1_py_bindings import PrivateKey;
+#          a=PrivateKey();
+#          b=PrivateKey();
+#          " &&
+#          python -m pytest -v {project}
+#        PYTHONPATH: tests
+#
+#    - uses: actions/upload-artifact@v4
+#      with:
+#        name: artifacts-macos-x86_64
+#        path: wheelhouse/*.whl
+#        if-no-files-found: error
 
 # Conda-Forge does not have libsecp256k1 for OSX-ARM64
 #  macos-wheels-arm-beta:
