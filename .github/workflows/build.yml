@@ -96,7 +96,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/setup-python@v5
 
     - name: Install Miniconda
       uses: conda-incubator/setup-miniconda@v3
@@ -107,9 +106,9 @@ jobs:
         # conda-forge does not support win32
         CIBW_ARCHS_WINDOWS: "AMD64 ARM64"
         CIBW_BEFORE_ALL_WINDOWS: conda install -c conda-forge pkgconfig libsecp256k1
-        CIBW_TEST_REQUIRES: pytest pytest-benchmark
+        CIBW_TEST_REQUIRES: pytest pytest-benchmark tox
         CIBW_TEST_COMMAND: >
-          conda install -c conda-forge libsecp256k1 tox &&
+          conda install -c conda-forge libsecp256k1 &&
           python -c
           "from libsecp256k1_py_bindings import PrivateKey;
           a=PrivateKey();
@@ -123,30 +122,26 @@ jobs:
         path: wheelhouse/*.whl
         if-no-files-found: error
 
-  macos-wheels-arm-beta:
-    name: Build macOS wheels for ARM (Native
+  macos-wheels-arm:
+    name: Build macOS wheels for ARM
     needs:
     - test
-    runs-on: macos-14
+    runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/setup-python@v5
 
     - name: Install Miniconda
       uses: conda-incubator/setup-miniconda@v3
-      with:
-        miniconda-version: "latest"
-        architecture: "arm64"
 
     - name: Build wheels
       uses: pypa/cibuildwheel@v2.16.5
       env:
-        CIBW_ARCHS_MACOS: arm64
+        CIBW_ARCHS_MACOS: x86_64
         CIBW_BEFORE_ALL_MACOS: conda install -c conda-forge pkgconfig libsecp256k1
-        CIBW_TEST_REQUIRES: pytest pytest-benchmark
+        CIBW_TEST_REQUIRES: pytest pytest-benchmark tox
         CIBW_TEST_COMMAND: >
-          conda install -c conda-forge libsecp256k1 tox &&
+          conda install -c conda-forge libsecp256k1 &&
           python -c
           "from libsecp256k1_py_bindings import PrivateKey;
           a=PrivateKey();
@@ -156,7 +151,44 @@ jobs:
 
     - uses: actions/upload-artifact@v4
       with:
-        name: artifacts-macos-arm-native
+        name: artifacts-macos-x86_64
         path: wheelhouse/*.whl
         if-no-files-found: error
 
+# Conda-Forge does not have libsecp256k1 for OSX-ARM64
+#  macos-wheels-arm-beta:
+#    name: Build macOS wheels for ARM (Native
+#    needs:
+#    - test
+#    runs-on: macos-14
+#
+#    steps:
+#    - uses: actions/checkout@v4
+#    - uses: actions/setup-python@v5
+#
+#    - name: Install Miniconda
+#      uses: conda-incubator/setup-miniconda@v3
+#      with:
+#        miniconda-version: "latest"
+#        architecture: "arm64"
+#
+#    - name: Build wheels
+#      uses: pypa/cibuildwheel@v2.16.5
+#      env:
+#        CIBW_ARCHS_MACOS: arm64
+#        CIBW_BEFORE_ALL_MACOS: conda install -c conda-forge pkgconfig libsecp256k1
+#        CIBW_TEST_REQUIRES: pytest pytest-benchmark
+#        CIBW_TEST_COMMAND: >
+#          conda install -c conda-forge libsecp256k1 tox &&
+#          python -c
+#          "from libsecp256k1_py_bindings import PrivateKey;
+#          a=PrivateKey();
+#          b=PrivateKey();
+#          " &&
+#          python -m tox -e ${{ env.PYTHON_VERSION }}
+#
+#    - uses: actions/upload-artifact@v4
+#      with:
+#        name: artifacts-macos-arm-native
+#        path: wheelhouse/*.whl
+#        if-no-files-found: error
