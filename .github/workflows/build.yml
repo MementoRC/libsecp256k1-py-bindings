@@ -109,7 +109,7 @@ jobs:
         CIBW_BEFORE_ALL_WINDOWS: conda install -c conda-forge pkgconfig libsecp256k1
         CIBW_TEST_REQUIRES: pytest pytest-benchmark
         CIBW_TEST_COMMAND: >
-          conda install -c conda-forge libsecp256k1 &&
+          conda install -c conda-forge libsecp256k1 tox &&
           python -c
           "from libsecp256k1_py_bindings import PrivateKey;
           a=PrivateKey();
@@ -143,16 +143,16 @@ jobs:
       uses: pypa/cibuildwheel@v2.16.5
       env:
         CIBW_ARCHS_MACOS: arm64
-        CIBW_BEFORE_ALL: conda install -c conda-forge pkgconfig libsecp256k1
+        CIBW_BEFORE_ALL_MACOS: conda install -c conda-forge pkgconfig libsecp256k1
         CIBW_TEST_REQUIRES: pytest pytest-benchmark
         CIBW_TEST_COMMAND: >
-          conda install -c conda-forge libsecp256k1 &&
+          conda install -c conda-forge libsecp256k1 tox &&
           python -c
           "from libsecp256k1_py_bindings import PrivateKey;
           a=PrivateKey();
           b=PrivateKey();
           " &&
-          python -m pytest {project}/tests
+          python -m tox -e ${{ env.PYTHON_VERSION }}
 
     - uses: actions/upload-artifact@v4
       with:
