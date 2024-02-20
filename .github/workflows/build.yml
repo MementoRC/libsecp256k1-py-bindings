@@ -98,8 +98,8 @@ jobs:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
 
-    # - name: Install Miniconda
-    #   uses: conda-incubator/setup-miniconda@v3
+    - name: Install Miniconda
+      uses: conda-incubator/setup-miniconda@v3
 
     - name: Build wheels
       uses: pypa/cibuildwheel@v2.16.5
@@ -133,8 +133,8 @@ jobs:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
 
-    # - name: Install Miniconda
-    #   uses: conda-incubator/setup-miniconda@v3
+    - name: Install Miniconda
+      uses: conda-incubator/setup-miniconda@v3
 
     - name: Build wheels
       uses: pypa/cibuildwheel@v2.16.5
