@@ -115,7 +115,7 @@ jobs:
           a=PrivateKey();
           b=PrivateKey();
           " &&
-          python -m pytest {project}/tests
+          tox -e ${{ env.PYTHON_VERSION }}
 
     - uses: actions/upload-artifact@v4
       with:
