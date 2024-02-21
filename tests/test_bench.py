@@ -1,4 +1,9 @@
+import os
+import sys
+
 from libsecp256k1_py_bindings import PrivateKey, PublicKey, verify_signature
+
+sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 from .samples import MESSAGE, PRIVATE_KEY_BYTES, PUBLIC_KEY_COMPRESSED, SIGNATURE
 
