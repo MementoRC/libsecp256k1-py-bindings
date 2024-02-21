@@ -7,7 +7,6 @@ import sys
 import pkgconfig
 from setuptools import setup
 from setuptools.command.build_ext import build_ext
-from setuptools.command.develop import develop
 from setuptools.extension import Extension
 
 logging.basicConfig(level=logging.INFO)
