@@ -204,3 +204,7 @@ class TestXonlyPubKey:
         pubkey.tweak_add(bytes.fromhex('6af9e28dbf9d6aaf027696e2598a5b3d056f5fd2355a7fd5a37a0e5008132d30'))
         assert pubkey.format() == bytes.fromhex('e4d810fd50586274face62b8a807eb9719cef49c04177cc6b76a9a4251d5450e')
         assert not pubkey.parity
+
+
+if __name__ == '__main__':
+    pytest.main(['-v', __file__])

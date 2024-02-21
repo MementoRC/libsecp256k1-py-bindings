@@ -103,3 +103,7 @@ def test_chunk_data():
         'e0',
         'b',
     ]
+
+
+if __name__ == '__main__':
+    pytest.main(['-v', __file__])
