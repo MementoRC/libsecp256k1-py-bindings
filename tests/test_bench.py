@@ -1,4 +1,5 @@
 from libsecp256k1_py_bindings import PrivateKey, PublicKey, verify_signature
+
 from .samples import MESSAGE, PRIVATE_KEY_BYTES, PUBLIC_KEY_COMPRESSED, SIGNATURE
 
 
