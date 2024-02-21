@@ -114,7 +114,7 @@ jobs:
           a=PrivateKey();
           b=PrivateKey();
           " &&
-          pytest -v {package}
+          pytest -v {package}\tests
 
     - uses: actions/upload-artifact@v4
       with:
