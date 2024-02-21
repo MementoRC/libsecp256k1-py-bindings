@@ -115,7 +115,8 @@ jobs:
           b=PrivateKey();
           " &&
           set PYTHONPATH={project}\tests &&
-          python -m pytest -v {project}
+          dir {project}\tests &&
+          python -m pytest -v {project}\tests
 
     - uses: actions/upload-artifact@v4
       with:
