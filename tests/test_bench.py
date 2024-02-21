@@ -1,5 +1,5 @@
 from libsecp256k1_py_bindings import PrivateKey, PublicKey, verify_signature
-from samples import MESSAGE, PRIVATE_KEY_BYTES, PUBLIC_KEY_COMPRESSED, SIGNATURE
+from .samples import MESSAGE, PRIVATE_KEY_BYTES, PUBLIC_KEY_COMPRESSED, SIGNATURE
 
 
 def test_verify_signature_util(benchmark):
