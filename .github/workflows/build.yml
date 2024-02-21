@@ -116,7 +116,6 @@ jobs:
           " &&
           set PYTHONPATH={project}\tests &&
           dir {project}\tests &&
-          python tests.test_keys &&
           pytest -v {project}
 
     - uses: actions/upload-artifact@v4
