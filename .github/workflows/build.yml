@@ -114,10 +114,10 @@ jobs:
           a=PrivateKey();
           b=PrivateKey();
           " &&
-          set PYTHONPATH={project}\tests &&
+          set PYTHONPATH={project}/tests &&
           cd {project} &&
           dir &&
-          python -m tests.test_keys
+          python -m tests.test_keys &&
           pytest -v {project}
 
     - uses: actions/upload-artifact@v4
