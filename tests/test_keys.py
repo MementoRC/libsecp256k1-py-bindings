@@ -6,7 +6,7 @@ from libsecp256k1_py_bindings.ecdsa import deserialize_recoverable, recover
 from libsecp256k1_py_bindings.keys import PrivateKey, PublicKey, PublicKeyXOnly
 from libsecp256k1_py_bindings.utils import bytes_to_int, int_to_bytes_padded, verify_signature
 
-#from .samples import (
+# from .samples import (
 #    samples.get('MESSAGE'),
 #    samples.get('PRIVATE_KEY_BYTES'),
 #    samples.get('PRIVATE_KEY_DER'),
@@ -21,7 +21,7 @@ from libsecp256k1_py_bindings.utils import bytes_to_int, int_to_bytes_padded, ve
 #    samples.get('SIGNATURE'),
 #    samples.get('X_ONLY_PUBKEY'),
 #    samples.get('X_ONLY_PUBKEY_INVALID'),
-#)
+# )
 
 G = PublicKey(
     b'\x04y\xbef~\xf9\xdc\xbb\xacU\xa0b\x95\xce\x87\x0b\x07\x02\x9b'
@@ -37,7 +37,10 @@ class TestPrivateKey:
         assert PrivateKey(samples.get('PRIVATE_KEY_BYTES')).public_key.format() == samples.get('PUBLIC_KEY_COMPRESSED')
 
     def test_xonly_pubkey(self, samples):
-        assert PrivateKey(samples.get('PRIVATE_KEY_BYTES')).public_key_xonly.format() == samples.get('PUBLIC_KEY_COMPRESSED')[1:]
+        assert (
+            PrivateKey(samples.get('PRIVATE_KEY_BYTES')).public_key_xonly.format()
+            == samples.get('PUBLIC_KEY_COMPRESSED')[1:]
+        )
 
     def test_signature_correct(self):
         private_key = PrivateKey()
@@ -60,7 +63,12 @@ class TestPrivateKey:
         private_key = PrivateKey(samples.get('PRIVATE_KEY_BYTES'))
         assert (
             private_key.public_key.format()
-            == PublicKey(recover(samples.get('MESSAGE'), deserialize_recoverable(private_key.sign_recoverable(samples.get('MESSAGE'))))).format()
+            == PublicKey(
+                recover(
+                    samples.get('MESSAGE'),
+                    deserialize_recoverable(private_key.sign_recoverable(samples.get('MESSAGE'))),
+                )
+            ).format()
         )
 
     def test_schnorr_signature(self):
@@ -135,20 +143,31 @@ class TestPublicKey:
         assert PublicKey.from_secret(samples.get('PRIVATE_KEY_BYTES')).format() == samples.get('PUBLIC_KEY_COMPRESSED')
 
     def test_from_point(self, samples):
-        assert PublicKey.from_point(samples.get('PUBLIC_KEY_X'), samples.get('PUBLIC_KEY_Y')).format() == samples.get('PUBLIC_KEY_COMPRESSED')
+        assert PublicKey.from_point(samples.get('PUBLIC_KEY_X'), samples.get('PUBLIC_KEY_Y')).format() == samples.get(
+            'PUBLIC_KEY_COMPRESSED'
+        )
 
     def test_from_signature_and_message(self, samples):
         assert (
             PublicKey.from_secret(samples.get('PRIVATE_KEY_BYTES')).format()
-            == PublicKey.from_signature_and_message(samples.get('RECOVERABLE_SIGNATURE'), samples.get('MESSAGE')).format()
+            == PublicKey.from_signature_and_message(
+                samples.get('RECOVERABLE_SIGNATURE'), samples.get('MESSAGE')
+            ).format()
         )
 
     def test_format(self, samples):
-        assert PublicKey(samples.get('PUBLIC_KEY_UNCOMPRESSED')).format(compressed=True) == samples.get('PUBLIC_KEY_COMPRESSED')
-        assert PublicKey(samples.get('PUBLIC_KEY_COMPRESSED')).format(compressed=False) == samples.get('PUBLIC_KEY_UNCOMPRESSED')
+        assert PublicKey(samples.get('PUBLIC_KEY_UNCOMPRESSED')).format(compressed=True) == samples.get(
+            'PUBLIC_KEY_COMPRESSED'
+        )
+        assert PublicKey(samples.get('PUBLIC_KEY_COMPRESSED')).format(compressed=False) == samples.get(
+            'PUBLIC_KEY_UNCOMPRESSED'
+        )
 
     def test_point(self, samples):
-        assert PublicKey(samples.get('PUBLIC_KEY_COMPRESSED')).point() == (samples.get('PUBLIC_KEY_X'), samples.get('PUBLIC_KEY_Y'))
+        assert PublicKey(samples.get('PUBLIC_KEY_COMPRESSED')).point() == (
+            samples.get('PUBLIC_KEY_X'),
+            samples.get('PUBLIC_KEY_Y'),
+        )
 
     def test_verify(self, samples):
         public_key = PublicKey(samples.get('PUBLIC_KEY_COMPRESSED'))
@@ -180,7 +199,10 @@ class TestXonlyPubKey:
 
     def test_roundtrip(self, samples):
         assert PublicKeyXOnly(samples.get('X_ONLY_PUBKEY')).format() == samples.get('X_ONLY_PUBKEY')
-        assert PublicKeyXOnly(samples.get('PUBLIC_KEY_COMPRESSED')[1:]).format() == samples.get('PUBLIC_KEY_COMPRESSED')[1:]
+        assert (
+            PublicKeyXOnly(samples.get('PUBLIC_KEY_COMPRESSED')[1:]).format()
+            == samples.get('PUBLIC_KEY_COMPRESSED')[1:]
+        )
 
         # Test __eq__
         assert PublicKeyXOnly(samples.get('X_ONLY_PUBKEY')) == PublicKeyXOnly(samples.get('X_ONLY_PUBKEY'))

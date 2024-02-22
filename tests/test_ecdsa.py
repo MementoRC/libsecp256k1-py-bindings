@@ -1,5 +1,5 @@
-from libsecp256k1_py_bindings.ecdsa import cdata_to_der, der_to_cdata
 import pytest
+from libsecp256k1_py_bindings.ecdsa import cdata_to_der, der_to_cdata
 
 
 def test_der(samples):

@@ -1,6 +1,3 @@
-import os
-import sys
-
 from libsecp256k1_py_bindings import PrivateKey, PublicKey, verify_signature
 
 
