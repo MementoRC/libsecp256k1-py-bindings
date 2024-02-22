@@ -16,8 +16,6 @@ from libsecp256k1_py_bindings.utils import (
     verify_signature,
 )
 
-from .samples import MESSAGE, PRIVATE_KEY_DER, PUBLIC_KEY_COMPRESSED, PUBLIC_KEY_UNCOMPRESSED, SIGNATURE
-
 
 class TestPadScalar:
     def test_correct(self):
@@ -69,13 +67,13 @@ def test_bytes_int_conversion_padded():
     assert int_to_bytes_padded(bytes_to_int(bytestr)) == bytestr
 
 
-def test_der_conversion():
-    assert pem_to_der(der_to_pem(PRIVATE_KEY_DER)) == PRIVATE_KEY_DER
+def test_der_conversion(samples):
+    assert pem_to_der(der_to_pem(samples.get('PRIVATE_KEY_DER'))) == samples.get('PRIVATE_KEY_DER')
 
 
-def test_verify_signature():
-    assert verify_signature(SIGNATURE, MESSAGE, PUBLIC_KEY_COMPRESSED)
-    assert verify_signature(SIGNATURE, MESSAGE, PUBLIC_KEY_UNCOMPRESSED)
+def test_verify_signature(samples):
+    assert verify_signature(samples.get('SIGNATURE'), samples.get('MESSAGE'), samples.get('PUBLIC_KEY_COMPRESSED'))
+    assert verify_signature(samples.get('SIGNATURE'), samples.get('MESSAGE'), samples.get('PUBLIC_KEY_UNCOMPRESSED'))
 
 
 def test_chunk_data():
