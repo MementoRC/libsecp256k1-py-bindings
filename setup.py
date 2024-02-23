@@ -62,6 +62,10 @@ class BuildCFFI(build_ext):
             subprocess.run(cmd, shell=False, check=True)  # noqa S603
 
         pkgconfig = shutil.which('pkg-config')
+
+        logging.info(f'DBG - PKG_CONFIG_PATH: {os.getenv("PKG_CONFIG_PATH")}')
+        logging.info(f'DBG - CONDA_PREFIX: {os.getenv("CONDA_PREFIX")}:')
+
         pkg_cmd = [pkgconfig, '--cflags', '--libs', '--dont-define-prefix', SECP256K1_PKG]
         lib_def = execute_command_with_temp_log(pkg_cmd, capture_output=True)
         inc, lib = _parse_pkginfo(lib_def, self.compiler.compiler_type == 'msvc')

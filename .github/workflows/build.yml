@@ -16,9 +16,8 @@ concurrency:
 
 env:
   CIBW_BEFORE_ALL: conda install -c conda-forge pkg-config libsecp256k1
-  CIBW_TEST_REQUIRES: pytest pytest-benchmark
   CIBW_TEST_COMMAND: >
-      conda install -c conda-forge cffi libsecp256k1 &&
+      conda install -c conda-forge cffi libsecp256k1 pytest pytest-benchmark &&
       pytest {project}
   CIBW_TEST_SKIP: "*-macosx_arm64"
   CIBW_SKIP: >
@@ -69,13 +68,13 @@ jobs:
       with:
         python-version: ${{ env.PYTHON_VERSION }}
 
-    - name: Install Miniconda
-      uses: conda-incubator/setup-miniconda@v3
-      with:
-        activate-environment: test-conda
-        environment-file: environment.yml
-        python-version: ${{ env.PYTHON_VERSION }}
-        auto-activate-base: false
+    # - name: Install Miniconda
+    #   uses: conda-incubator/setup-miniconda@v3
+    #   with:
+    #     activate-environment: test-conda
+    #     environment-file: environment.yml
+    #     python-version: ${{ env.PYTHON_VERSION }}
+    #     auto-activate-base: false
 
     - name: Run tests
       shell: pwsh
