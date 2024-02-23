@@ -68,13 +68,13 @@ jobs:
       with:
         python-version: ${{ env.PYTHON_VERSION }}
 
-    # - name: Install Miniconda
-    #   uses: conda-incubator/setup-miniconda@v3
-    #   with:
-    #     activate-environment: test-conda
-    #     environment-file: environment.yml
-    #     python-version: ${{ env.PYTHON_VERSION }}
-    #     auto-activate-base: false
+    - name: Install Miniconda
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        activate-environment: test-conda
+        environment-file: environment.yml
+        python-version: ${{ env.PYTHON_VERSION }}
+        auto-activate-base: false
 
     - name: Run tests
       shell: pwsh
