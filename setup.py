@@ -5,7 +5,7 @@ import subprocess
 import sys
 import tempfile
 
-from setuptools import setup, Distribution
+from setuptools import setup
 from setuptools.command.build_ext import build_ext
 from setuptools.extension import Extension
 
