@@ -61,37 +61,32 @@ class BuildCFFI(build_ext):
             cmd = [sys.executable, build_script, c_file, '0']
             subprocess.run(cmd, shell=False, check=True)  # noqa S603
 
-        logging.info(f'Extension build: {ext.__dict__}')
+        pkgconfig = shutil.which('pkg-config')
+        pkg_cmd = [pkgconfig, '--cflags', '--libs', '--dont-define-prefix', SECP256K1_PKG]
+        lib_def = execute_command_with_temp_log(pkg_cmd, capture_output=True)
+        inc, lib = _parse_pkginfo(lib_def, self.compiler.compiler_type == 'msvc')
+
+        ext.extra_compile_args.extend(inc)
+        ext.extra_link_args.extend(lib)
 
         super().build_extension(ext)
 
 
-PKGCONFIG = shutil.which('pkg-config')
+SECP256K1_PKG = 'libsecp256k1'
 
 
 def main():
     package_name = 'libsecp256k1_py_bindings'
-    secp256k1_package = 'libsecp256k1'
 
-    libname = f'{package_name}._{secp256k1_package}'
+    libname = f'{package_name}._{SECP256K1_PKG}'
 
     extension = Extension(
         name=libname,
-        sources=[f'_{secp256k1_package}.c'],
+        sources=[f'_{SECP256K1_PKG}.c'],
         extra_compile_args=['/d2FH4-'] if sys.platform == 'win32' else [],
         # API mode is preferred to ABI: https://cffi.readthedocs.io/en/stable/overview.html#abi-versus-api
         py_limited_api=False,
     )
-
-    pkg_cmd = [PKGCONFIG, '--cflags', '--libs', '--dont-define-prefix', secp256k1_package]
-    lib_def = execute_command_with_temp_log(pkg_cmd, capture_output=True)
-    inc, lib = _parse_pkginfo(
-        lib_def,
-        BuildCFFI(dist=Distribution()).compiler.compiler_type == 'msvc'
-    )
-
-    extension.extra_compile_args.extend(inc)
-    extension.extra_link_args.extend(lib)
 
     setup(
         ext_modules=[extension],
