@@ -5,7 +5,7 @@ import subprocess
 import sys
 import tempfile
 
-from setuptools import setup
+from setuptools import setup, Distribution
 from setuptools.command.build_ext import build_ext
 from setuptools.extension import Extension
 
@@ -87,7 +87,7 @@ def main():
     lib_def = execute_command_with_temp_log(pkg_cmd, capture_output=True)
     inc, lib = _parse_pkginfo(
         lib_def,
-        build_ext.compiler.__class__.__name__ == 'MSVCCompiler'
+        build_ext(dist=Distribution()).compiler.__class__.__name__ == 'MSVCCompiler'
     )
 
     extension.extra_compile_args.extend(inc)
