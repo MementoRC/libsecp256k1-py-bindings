@@ -1,8 +1,10 @@
 import logging
 import os
 import platform
+import shutil
 import subprocess
 import sys
+import tempfile
 
 import pkgconfig
 from setuptools import setup
@@ -10,6 +12,45 @@ from setuptools.command.build_ext import build_ext
 from setuptools.extension import Extension
 
 logging.basicConfig(level=logging.INFO)
+
+
+def execute_command_with_temp_log(cmd, *, debug=False, capture_output=False, **kwargs):
+    with tempfile.NamedTemporaryFile(mode='w+') as temp_log:
+        try:
+            if capture_output:
+                ret = subprocess.check_output(cmd, stderr=temp_log, **kwargs)  # noqa S603
+            else:
+                subprocess.check_call(cmd, stdout=temp_log, stderr=temp_log, **kwargs)  # noqa S603
+
+            if debug:
+                temp_log.seek(0)
+                log_contents = temp_log.read()
+                logging.info(f'Command log:\n{log_contents}')
+
+            if capture_output:
+                return ret.rstrip().decode()
+
+        except subprocess.CalledProcessError as e:
+            logging.error(f'An error occurred during the command execution: {e}')
+            temp_log.seek(0)
+            log_contents = temp_log.read()
+            logging.error(f'Command log:\n{log_contents}')
+            raise e
+
+
+def _parse_pkginfo(definitions, msvc=False):
+    import re
+
+    inc, lib = [], []
+    definitions.replace('\\"', '')
+    for arg in re.split(r'(?<!\\) ', definitions):
+        if arg.startswith("-I"):
+            inc.append(arg)
+        elif arg.startswith("-L"):
+            lib.append(f'/libpath:{arg[2:]}' if msvc else arg)
+        elif arg.startswith("-l"):
+            lib.append(arg)
+    return inc, lib
 
 
 class BuildCFFI(build_ext):
@@ -27,6 +68,9 @@ class BuildCFFI(build_ext):
         super().build_extension(ext)
 
 
+PKGCONFIG = shutil.which('pkg-config')
+
+
 def main():
     package_name = 'libsecp256k1_py_bindings'
     secp256k1_package = 'libsecp256k1'
@@ -41,23 +85,20 @@ def main():
         py_limited_api=False,
     )
 
-    logging.info(f'Extension build: {extension.__dict__}')
+    pkg_cmd = [PKGCONFIG, '--cflags', '--libs', '--dont-define-prefix', secp256k1_package]
+    lib_def = execute_command_with_temp_log(pkg_cmd, capture_output=True)
+    inc, lib = _parse_pkginfo(
+        lib_def,
+        build_ext.compiler.__class__.__name__ == 'MSVCCompiler'
+    )
 
-    pkgconfig.configure_extension(extension, secp256k1_package, static=False)
-
-    logging.info(subprocess.check_output(['pkg-config', '--libs', 'libsecp256k1']))
-
-    if platform.system() == 'Windows':
-        # Apparently, the linker on Windows interprets -lxxx as xxx.lib, not libxxx.lib
-        for i, v in enumerate(extension.__dict__.get('extra_link_args')):
-            if v.endswith('.lib'):
-                extension.__dict__['extra_link_args'][i] = f'lib{v}'
+    extension.extra_compile_args.extend(inc)
+    extension.extra_link_args.extend(lib)
 
     setup(
         ext_modules=[extension],
-        cmdclass={'build_ext': BuildCFFI,},
-        package_data={package_name: ['py.typed',]},
-
+        cmdclass={'build_ext': BuildCFFI, },
+        package_data={package_name: ['py.typed', ]},
         package_dir={f'{package_name}': f'src/{package_name}'},
     )
 
