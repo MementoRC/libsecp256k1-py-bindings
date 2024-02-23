@@ -6,7 +6,7 @@ dependencies:
   - cffi>=1.3.0
   - codecov
   - libsecp256k1
-  - pkgconfig
+  - pkg-config
   - pytest
   - pytest-cov
   - pytest-benchmark
