@@ -1,12 +1,10 @@
 import logging
 import os
-import platform
 import shutil
 import subprocess
 import sys
 import tempfile
 
-import pkgconfig
 from setuptools import setup
 from setuptools.command.build_ext import build_ext
 from setuptools.extension import Extension
@@ -44,11 +42,11 @@ def _parse_pkginfo(definitions, msvc=False):
     inc, lib = [], []
     definitions.replace('\\"', '')
     for arg in re.split(r'(?<!\\) ', definitions):
-        if arg.startswith("-I"):
+        if arg.startswith('-I'):
             inc.append(arg)
-        elif arg.startswith("-L"):
+        elif arg.startswith('-L'):
             lib.append(f'/libpath:{arg[2:]}' if msvc else arg)
-        elif arg.startswith("-l"):
+        elif arg.startswith('-l'):
             lib.append(arg)
     return inc, lib
 
