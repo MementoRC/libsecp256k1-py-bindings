@@ -87,7 +87,7 @@ def main():
     lib_def = execute_command_with_temp_log(pkg_cmd, capture_output=True)
     inc, lib = _parse_pkginfo(
         lib_def,
-        build_ext(dist=Distribution()).compiler.__class__.__name__ == 'MSVCCompiler'
+        BuildCFFI(dist=Distribution()).compiler.compiler_type == 'msvc'
     )
 
     extension.extra_compile_args.extend(inc)
