@@ -15,10 +15,10 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  CIBW_BEFORE_ALL: conda install -c conda-forge pkgconfig libsecp256k1=0.4.1=hd590300_0
+  CIBW_BEFORE_ALL: conda install -c conda-forge pkgconfig libsecp256k1=0.4.1
   CIBW_TEST_REQUIRES: pytest pytest-benchmark
   CIBW_TEST_COMMAND: >
-      conda install -c conda-forge libsecp256k1==0.4.1=hd590300_0 &&
+      conda install -c conda-forge libsecp256k1=0.4.1 &&
       pytest {project}
   CIBW_TEST_SKIP: "*-macosx_arm64"
   CIBW_SKIP: >
