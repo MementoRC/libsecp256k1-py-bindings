@@ -45,6 +45,8 @@ def main():
 
     pkgconfig.configure_extension(extension, secp256k1_package, static=False)
 
+    logging.info(subprocess.check_output(['pkg-config', '--libs', 'libsecp256k1']))
+
     if platform.system() == 'Windows':
         # Apparently, the linker on Windows interprets -lxxx as xxx.lib, not libxxx.lib
         for i, v in enumerate(extension.__dict__.get('extra_link_args')):
