@@ -48,7 +48,7 @@ def _parse_pkginfo(definitions, msvc=False):
             lib.append(f'/libpath:{arg[2:]}' if msvc else arg)
         elif arg.startswith('-l'):
             # SECP256K1 should have both libsecp256k1.lib abd secp256k1.lib
-            lib.append(f'{arg[2:]}.lib')
+            lib.append(f'{arg[2:]}.lib' if msvc else arg)
     return inc, lib
 
 
