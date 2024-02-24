@@ -114,28 +114,26 @@ jobs:
         path: wheelhouse/*.whl
         if-no-files-found: error
 
-  macos-wheels-x86_64:
-    name: Build macOS wheels for x86-64
-    needs:
-    - test
-    runs-on: macos-latest
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Install Miniconda
-      uses: conda-incubator/setup-miniconda@v3
-
-    - name: Build wheels
-      uses: pypa/cibuildwheel@v2.16.5
-      env:
-        CIBW_ARCHS_MACOS: x86_64
-
-    - uses: actions/upload-artifact@v4
-      with:
-        name: artifacts-macos-x86_64
-        path: wheelhouse/*.whl
-        if-no-files-found: error
+#    # Need to install Conda on the build VM
+#  macos-wheels-x86_64:
+#    name: Build macOS wheels for x86-64
+#    needs:
+#    - test
+#    runs-on: macos-latest
+#
+#    steps:
+#    - uses: actions/checkout@v4
+#
+#    - name: Build wheels
+#      uses: pypa/cibuildwheel@v2.16.5
+#      env:
+#        CIBW_ARCHS_MACOS: x86_64
+#
+#    - uses: actions/upload-artifact@v4
+#      with:
+#        name: artifacts-macos-x86_64
+#        path: wheelhouse/*.whl
+#        if-no-files-found: error
 
 # Conda-Forge does not have libsecp256k1 for OSX-ARM64
 #  macos-wheels-arm-beta:
