@@ -1,5 +1,4 @@
 typedef struct secp256k1_context_struct secp256k1_context;
-typedef struct secp256k1_scratch_space_struct secp256k1_scratch_space;
 typedef struct {
     unsigned char data[64];
 } secp256k1_pubkey;
@@ -43,14 +42,6 @@ extern void secp256k1_context_set_error_callback(
     secp256k1_context *ctx,
     void (*fun)(const char *message, void *data),
     const void *data
-);
-extern secp256k1_scratch_space *secp256k1_scratch_space_create(
-    const secp256k1_context *ctx,
-    size_t size
-);
-extern void secp256k1_scratch_space_destroy(
-    const secp256k1_context *ctx,
-    secp256k1_scratch_space *scratch
 );
 extern int secp256k1_ec_pubkey_parse(
     const secp256k1_context *ctx,
