@@ -1,6 +1,7 @@
 from os import urandom
 
 import pytest
+
 from libsecp256k1_py_bindings.utils import (
     GROUP_ORDER,
     ZERO,

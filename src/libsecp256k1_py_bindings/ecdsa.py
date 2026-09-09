@@ -8,7 +8,7 @@ CDATA_SIG_LENGTH = 64
 
 
 def cdata_to_der(cdata, context: Context = GLOBAL_CONTEXT) -> bytes:
-    der = ffi.new('unsigned char[%d]' % MAX_SIG_LENGTH)
+    der = ffi.new(f'unsigned char[{MAX_SIG_LENGTH}]')
     der_length = ffi.new('size_t *', MAX_SIG_LENGTH)
 
     lib.secp256k1_ecdsa_signature_serialize_der(context.ctx, der, der_length, cdata)
@@ -36,7 +36,7 @@ def recover(message: bytes, recover_sig, hasher: Hasher = sha256, context: Conte
 
 
 def serialize_recoverable(recover_sig, context: Context = GLOBAL_CONTEXT) -> bytes:
-    output = ffi.new('unsigned char[%d]' % CDATA_SIG_LENGTH)
+    output = ffi.new(f'unsigned char[{CDATA_SIG_LENGTH}]')
     recid = ffi.new('int *')
 
     lib.secp256k1_ecdsa_recoverable_signature_serialize_compact(context.ctx, output, recid, recover_sig)
@@ -68,7 +68,7 @@ Warning:
 
 
 def serialize_compact(raw_sig, context: Context = GLOBAL_CONTEXT):  # no cov
-    output = ffi.new('unsigned char[%d]' % CDATA_SIG_LENGTH)
+    output = ffi.new(f'unsigned char[{CDATA_SIG_LENGTH}]')
 
     if not lib.secp256k1_ecdsa_signature_serialize_compact(context.ctx, output, raw_sig):
         raise ValueError('secp256k1_ecdsa_signature_serialize_compact')

@@ -82,7 +82,7 @@ exclude = '''
 [tool.ruff]
 target-version = "py37"
 line-length = 120
-lint.select = ["A", "B", "C", "E", "F", "I", "M", "N", "Q", "RUF", "S", "T", "U", "W", "YTT"]
+lint.select = ["A", "B", "C", "E", "F", "I", "N", "Q", "RUF", "S", "T", "U", "W", "YTT"]
 lint.ignore = [
   # Allow non-abstract empty methods in abstract base classes
   "B027",
