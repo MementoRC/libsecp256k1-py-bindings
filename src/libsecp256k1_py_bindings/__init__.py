@@ -41,7 +41,8 @@ from .utils import (
     verify_signature,
 )
 
-__all__ = [
+# Grouped by source module rather than globally sorted; RUF022 wants a flat sort.
+__all__ = [  # noqa: RUF022
     # context
     'Context',
     'GLOBAL_CONTEXT',
