@@ -78,9 +78,11 @@ jobs:
         auto-activate-base: false
 
     - name: Run tests
+      shell: bash -l {0}
       run: tox -e ${{ env.PYTHON_VERSION }}
 
     - name: Run benchmarks
+      shell: bash -l {0}
       run: tox -e bench
 
   windows-wheels-standard:
