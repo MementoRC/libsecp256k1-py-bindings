@@ -14,5 +14,13 @@
 /wheelhouse
 /pip-wheel-metadata
 
-/libsecp256k1_py_bindings/_libsecp256k1.py
-/libsecp256k1_py_bindings/libsecp256k1.dll
+/src/libsecp256k1_py_bindings/_libsecp256k1.py
+/src/libsecp256k1_py_bindings/libsecp256k1.dll
+__pycache__/
+*.so
+*.pyd
+/.pytest_cache
+/.ruff_cache
+/.claude
+/.mcp.json
+/logs

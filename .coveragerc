@@ -2,7 +2,7 @@
 branch = True
 
 source =
-    libsecp256k1_py_bindings
+    src/libsecp256k1_py_bindings
     tests
 
 omit =
@@ -10,7 +10,7 @@ omit =
 
 [paths]
 source =
-   libsecp256k1_py_bindings
+   src/libsecp256k1_py_bindings
    .tox/*/lib/python*/site-packages/libsecp256k1_py_bindings
    .tox/pypy*/site-packages/libsecp256k1_py_bindings
 
